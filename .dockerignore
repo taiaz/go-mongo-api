@@ -1,0 +1,28 @@
+# Binaries
+/go-mongo-api
+*.exe
+*.out
+
+# Temporary files
+*.log
+*.tmp
+*.bak
+
+# Dependency directories
+/vendor/
+/node_modules/
+
+# IDE specific files
+.idea/
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Git files
+.git
+.gitignore
+
+# Environment variables
+.env
