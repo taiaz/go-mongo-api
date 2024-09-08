@@ -4,7 +4,7 @@ metadata:
   name: go-mongo-api
   namespace: staging
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: go-mongo-api
