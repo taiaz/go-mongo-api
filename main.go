@@ -6,25 +6,31 @@ import (
 	"go-mongo-api/config"
 	"go-mongo-api/handlers"
 	"log"
+	"os"
 )
 
 func main() {
-	// Load environment variables from .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	envMode := os.Getenv("ENV_MODE")
+
+	if envMode == "local" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+		}
+		log.Println("Loaded environment variables from .env file")
+	} else {
+		log.Println("Running in production mode, using environment variables from Kubernetes")
 	}
 
-	// Initialize MongoDB connection
 	config.ConnectDB()
 
-	// Create a new Gin router
 	router := gin.Default()
 
-	// Routes
 	router.GET("/test-connection", handlers.TestConnection)
 	router.GET("/get-data", handlers.GetData)
 
-	// Start the server
 	router.Run(":8080")
 }
+
+//export ENV_MODE=local
+//go run main.go
