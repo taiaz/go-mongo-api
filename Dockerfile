@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . .
 
+RUN go mod vendor
+
 RUN go mod tidy
 
 RUN go build -o go-mongo-api
