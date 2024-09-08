@@ -59,6 +59,8 @@ pipeline {
 
                         sh "kubectl set image deployment/go-mongo-api go-mongo-api=${env.DOCKER_IMAGE} --namespace=${NAMESPACE}"
 
+                        sh "kubectl apply -f service.yaml --namespace=${NAMESPACE}"
+
                         sh "kubectl rollout status deployment/go-mongo-api --namespace=${NAMESPACE}"
                     }
                 }
