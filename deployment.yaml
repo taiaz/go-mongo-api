@@ -30,7 +30,7 @@ spec:
                   name: mongodb-secret
                   key: mongo-root-password
             - name: MONGO_URI
-              value: "103.173.66.103:32000"
+              value: "mongodb-service:27017"
             - name: MONGO_DB
               value: "user_management"
             - name: MONGO_COLLECTION
