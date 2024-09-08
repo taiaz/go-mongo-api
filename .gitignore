@@ -16,8 +16,6 @@
 
 # Go build output
 *.test
-*.mod
-*.sum
 
 # IDE specific files
 .idea/
