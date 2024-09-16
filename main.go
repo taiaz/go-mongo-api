@@ -7,6 +7,8 @@ import (
 	"go-mongo-api/handlers"
 	"log"
 	"os"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -26,9 +28,14 @@ func main() {
 
 	router := gin.Default()
 
+	// Prometheus metrics endpoint
+	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
+
+	// API endpoints
 	router.GET("/test-connection", handlers.TestConnection)
 	router.GET("/get-data", handlers.GetData)
 
+	// Run the application
 	router.Run(":8080")
 }
 

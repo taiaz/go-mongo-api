@@ -8,10 +8,16 @@ spec:
   selector:
     matchLabels:
       app: go-mongo-api
+      backend-service: "true"
   template:
     metadata:
       labels:
         app: go-mongo-api
+        backend-service: "true"
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
     spec:
       containers:
         - name: go-mongo-api
