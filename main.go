@@ -3,15 +3,38 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/sirupsen/logrus"
 	"go-mongo-api/config"
 	"go-mongo-api/handlers"
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
+
+type logrusWriter struct{}
+
+func (w logrusWriter) Write(p []byte) (n int, err error) {
+	logMessage := string(p)
+	logMessage = strings.TrimSuffix(logMessage, "\n")
+	lowerCaseMessage := strings.ToLower(logMessage)
+
+	switch {
+	case strings.Contains(lowerCaseMessage, "fatal"):
+		logrus.Fatal(logMessage)
+	case strings.Contains(lowerCaseMessage, "error"):
+		logrus.Error(logMessage)
+	case strings.Contains(lowerCaseMessage, "warn"):
+		logrus.Warn(logMessage)
+	default:
+		logrus.Info(logMessage)
+	}
+
+	return len(p), nil
+}
 
 var (
 	requestCount = prometheus.NewCounterVec(
@@ -24,6 +47,12 @@ var (
 )
 
 func init() {
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+	logrus.SetOutput(os.Stdout)
+	logrus.SetLevel(logrus.InfoLevel)
+	log.SetOutput(logrusWriter{})
+	log.SetFlags(0)
+
 	// Register the custom metric with Prometheus's default registry.
 	prometheus.MustRegister(requestCount)
 }
@@ -45,12 +74,9 @@ func main() {
 
 	router := gin.Default()
 
-	// Middleware để ghi lại số lượng request
 	router.Use(func(c *gin.Context) {
-		// Tiến hành request
 		c.Next()
 
-		// Cập nhật metric sau khi request hoàn thành
 		status := c.Writer.Status()
 		requestCount.WithLabelValues(c.FullPath(), c.Request.Method, http.StatusText(status)).Inc()
 	})
