@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -87,6 +88,13 @@ func main() {
 	// API endpoints
 	router.GET("/test-connection", handlers.TestConnection)
 	router.GET("/get-data", handlers.GetData)
+
+	go func() {
+		for {
+			log.Println("Logging message every 3 minutes...")
+			time.Sleep(3 * time.Minute)
+		}
+	}()
 
 	// Run the application
 	router.Run(":8080")
