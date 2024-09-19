@@ -100,6 +100,6 @@ func main() {
 	router.Run(":8080")
 }
 
-//export ENV_MODE=local
-//go run main.go
-//
+// export ENV_MODE=local
+// go run main.go
+// log.SetOutput(os.Stdout)
