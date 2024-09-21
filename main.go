@@ -13,7 +13,6 @@ import (
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 type logrusWriter struct{}
@@ -48,14 +47,14 @@ var (
 )
 
 func init() {
-	logrus.SetFormatter(&logrus.JSONFormatter{})
-	logrus.SetOutput(os.Stdout)
-	logrus.SetLevel(logrus.InfoLevel)
+	//logrus.SetFormatter(&logrus.JSONFormatter{})
+	//logrus.SetOutput(os.Stdout)
+	//logrus.SetLevel(logrus.InfoLevel)
 	log.SetOutput(logrusWriter{})
 	log.SetFlags(0)
 
 	// Register the custom metric with Prometheus's default registry.
-	prometheus.MustRegister(requestCount)
+	//prometheus.MustRegister(requestCount)
 }
 
 func main() {
@@ -83,7 +82,7 @@ func main() {
 	})
 
 	// Prometheus metrics endpoint
-	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
+	//router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	// API endpoints
 	router.GET("/test-connection", handlers.TestConnection)

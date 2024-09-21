@@ -16,8 +16,8 @@ spec:
         backend-service: "true"
       annotations:
         prometheus.io/scrape: "true"
-        prometheus.io/port: "8080"
-        prometheus.io/path: "/metrics"
+#        prometheus.io/port: "8080"
+#        prometheus.io/path: "/metrics"
         promtail.io/scrape: "true"
         promtail.io/port: "8080"
     spec:
