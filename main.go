@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
 	"go-mongo-api/config"
 	"go-mongo-api/handlers"
@@ -54,7 +55,7 @@ func init() {
 	log.SetFlags(0)
 
 	// Register the custom metric with Prometheus's default registry.
-	//prometheus.MustRegister(requestCount)
+	prometheus.MustRegister(requestCount)
 }
 
 func main() {
@@ -82,7 +83,7 @@ func main() {
 	})
 
 	// Prometheus metrics endpoint
-	//router.GET("/metrics", gin.WrapH(promhttp.Handler()))
+	router.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	// API endpoints
 	router.GET("/test-connection", handlers.TestConnection)
