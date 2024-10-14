@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
         - name: go-mongo-api
-          image: tonytran1997/go-mongo-api:latest
+          image: tonytran1997/go-mongo-api:staging-latest
           ports:
             - containerPort: 8080
           env:
